@@ -1,0 +1,7 @@
+db.sqlite3
+api_credentials.py
+.cache
+__pycache__/
+.vscode
+.vscode/
+wireframe.pdf

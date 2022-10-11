@@ -1,0 +1,64 @@
+{% extends "index.html" %}
+
+{% block title %}Search Music {% endblock %}
+
+{% block content %}
+
+
+<blockquote class="blockquote text-center">
+	<div class="p-3 mb-2 bg-success text-white"> <h4 class="display-4">Search for Soundscapes</h4> </div>
+</blockquote>
+<title>Search</title>
+
+</head>
+<body>
+<div class="container-fluid">
+		<div class="row justify-content-start">
+			<div class = "col-4">
+				<p><a class = "text-success" href="#"> <h4> Back to Home </h4></a></p>
+			</div>
+		</div>
+	</div>
+<nav class="navbar navbar-light bg-faded">
+<form name="some" method = "GET" action="/browser/search">
+<p>Enter a song, album, or artist to search for below: </p>
+<input class="form-control" type="text" name="q" value="{{ request.GET.q }}">
+<input type="submit" value="Song" class="btn btn-primary" name = "r">
+
+</form>
+</nav>
+
+{% if musicData == "there is an error" %}
+{% if 'r' in request.GET %}
+<h3>No song results to display for "{{request.GET.q}}"</h3>
+{% endif %}
+
+{% elif musicData == "there is a song error" %}
+	<h3>No song results to display for "{{request.GET.q}}"</h3>
+{% else %}
+
+{% for m in musicData %}
+{% if 'r' in request.GET %}
+<div class="container-fluid">
+		<div class="media">
+			<div class="media-left">
+				<a href="#">
+<img src="{{m.image}}" class="rounded" width=100/>
+<p></p>
+				</a>
+			</div>
+			<div class="media-body">
+				<div class="col col-md-auto">
+<h3><a href="/song/{{m.songId}}" name = "clicked">{{m.title}}</a></h3>
+<p>{{m.artists}}</p>
+</div>
+			</div>
+		</div>
+	</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+
+
+{% endblock %}

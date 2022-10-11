@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Marcelo Argotti">
+    <meta name="date" content="02/08/2021">
+    <title>{% block title %}{% endblock %}</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+
+<body>
+<div id="header">
+    <span class="logo">Soundscapes</span>
+
+    <!-- Only display the site's tabs/menu to authetucated users -->
+    {% if request.user.is_authenticated %}
+    <ul class="menu">
+      <li {% if tab == "home" %}class="selected"{% endif %}>
+        <a href="{% url 'home' %}">Home</a>
+      </li>
+      <li {% if tab == "images" %}class="selected"{% endif %}>
+        <a href="#">Tracks</a>
+      </li>
+      <li {% if tab == "people" %}class="selected"{% endif %}>
+        <a href="#">Soundscapers</a>
+      </li>
+    </ul>
+  {% endif %}
+  <span class="user">
+    {% if request.user.is_authenticated %}
+      Hello {{ request.user.first_name }},
+      <a href="{% url 'logout' %}">Logout</a>
+    {% else %}
+      <a href="{% url 'login' %}">Log-in</a>
+    {% endif %}
+  </span>
+</div>
+    
+
+{% if messages %}
+<ul class="messages">
+  {% for message in messages %}
+    <li class="{{ message.tags }}">
+      {{ message|safe }}
+        <a href="#" class="close">x</a>
+    </li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+
+  <!-- fill with content by the templates that extend from it -->
+  <div id="content">
+    {% block content %}
+    {% endblock %}
+  </div>
+</body>
+</html>
